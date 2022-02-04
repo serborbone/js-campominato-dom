@@ -33,28 +33,22 @@ function play() {
 
           let createDiv = document.createElement('div');
           createDiv.classList.add('square');
-          createDiv.innerText = i;
 
-          createDiv.addEventListener('click', function() {
-          
-              createDiv.classList.add('color-selected');
-          
-          });
+          let createPar = document.createElement("p");
+          createDiv.appendChild(createPar);
+
+          createPar.innerText = i;
+
           gridSelection.appendChild(createDiv);
+
+          
+          createDiv.addEventListener('click', showSquare);
 
         }
 
     }
 
-    //generare un numero randomico
-    function randomNumber(minNumb, maxNumb) {
-
-        let random = Math.floor(Math.random() * (maxNumb - minNumb + 1) + minNumb);
-        return random;
-
-    }
-
-    //Funzione per generare le bombe
+     //Funzione per generare le bombe
     let creatingBomb = createBomb(bombGenerate, numbSquare);
 
     function createBomb(NumbBombToCreate, numbOfSquare){
@@ -69,9 +63,55 @@ function play() {
                 bombCreated.push(bombToPush);
             }
         };
-        return console.log(bombCreated);
+        return bombCreated;
     }
 
-     
+    //generare un numero randomico
+    function randomNumber(minNumb, maxNumb) {
+
+        let random = Math.floor(Math.random() * (maxNumb - minNumb + 1) + minNumb);
+        return random;
+
+    }
+
+    let numbTentativi = [];
+
+    function showSquare () {
+    
+        let parValue = parseInt(this.innerText);
+
+
+        if (creatingBomb.includes(parValue)) {
+
+            showAllBomb(numbTentativi);
+        
+        } else {
+
+            //aggiungo la classe che colora di blu i quadrati
+            this.classList.add('color-selected')
+
+            /*pusho i numeri dei quadrati cliccati per poi ricavarne il numero di tentativi 
+            nella funzione showAllBomb*/
+            numbTentativi.push(parValue);
+        }
+    }
+
+    //mostro tutte le bombe se ne clicco una
+    function showAllBomb (numbOfSuccess) {
+    
+        let squareSelection = document.getElementsByClassName('square');
+        for (let i = 0; i < squareSelection.length; i++) {
+        
+            if (creatingBomb.includes(parseInt(squareSelection[i].innerText))) {
+            
+                squareSelection[i].classList.add('bomb-red');
+  
+            }
+        
+        }
+        //mostro il messaggio di fine gioco con il numero di tentativi fatti
+        document.getElementById('show-msg').innerText = `Peccato! Hai beccato la bomba dopo ${numbOfSuccess.length} tentativi. Premi Play per giocare ancora.`;
+    }
+
 
 }
