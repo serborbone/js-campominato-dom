@@ -5,6 +5,9 @@ function play() {
     let difficultySelect = document.getElementById('difficulty-select').value;
     let gridSelection = document.querySelector('.grid');
     let bombGenerate = 16;
+
+    let selectShowMsg = document.getElementById('show-msg');
+    selectShowMsg.classList.add('d-none');
     
     //faccio il reset delle griglie
     gridSelection.innerHTML = "";
@@ -96,6 +99,8 @@ function play() {
         }
     }
 
+        
+    
     //mostro tutte le bombe se ne clicco una
     function showAllBomb (numbOfSuccess) {
     
@@ -109,8 +114,11 @@ function play() {
             }
         
         }
+
+
         //mostro il messaggio di fine gioco con il numero di tentativi fatti
-        document.getElementById('show-msg').innerText = `Peccato! Hai beccato la bomba dopo ${numbOfSuccess.length} tentativi. Premi Play per giocare ancora.`;
+        selectShowMsg.classList.remove('d-none');
+        selectShowMsg.innerText = `Peccato! Hai beccato la bomba dopo ${numbOfSuccess.length} tentativi. Premi Play per giocare ancora.`;
     }
 
 
